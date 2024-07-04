@@ -1,38 +1,25 @@
-#include <stdio.h>
 #include "main.h"
 
 /**
- * leet - function that encodes a string into 1337.
- * @string: pointer to string to be encoded.
+ * leet - Encodes a string into 1337 (leet) format
+ * @str: The string to encode
  *
- * Letters a and A should be replaced by 4.
- * Letters e and E should be replaced by 3.
- * Letters o and O should be replaced by 0.
- * Letters t and T should be replaced by 7.
- * Letters l and L should be replaced by 1.
- *
- * You can only use one if in your code.
- * You can only use two loops in your code.
- * You are not allowed to use switch.
- * You are not allowed to use any ternary operation.
- *
- * Return: the encoded string.
+ * Return: Pointer to the resulting encoded string
  */
-
-char *leet(char *string)
+char *leet(char *str)
 {
-	int i, j = 0;
-	char subs[10] = {'4', '4', '3', '3', '0', '0', '7', '7', '1', '1'},
-		str[10] = {'a', 'A', 'e', 'E', 'o', 'O', 't', 'T', 'l', 'L'};
+	int i, j;
+	char letters[] = "aAeEoOtTlL";
+	char leet_nums[] = "4433007711";
 
-	while (string[j])
+	for (i = 0; str[i] != '\0'; i++)
 	{
-		for (i = 0; i < 10; i++)
+		for (j = 0; j < 10; j++)
 		{
-			if (string[j] == str[i])
-				string[j] = subs[i];
+			if (str[i] == letters[j])
+				str[i] = leet_nums[j];
 		}
-		j++;
 	}
-	return (string);
+
+	return str;
 }
