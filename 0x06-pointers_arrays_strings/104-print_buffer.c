@@ -2,100 +2,60 @@
 #include <stdio.h>
 
 /**
- * isPrintableASCII - determines if n is a printable ASCII char.
- * @n: integer
+ * print_line - prints a s bytes of a buffer
+ * @c: buffer to print
+ * @s: bytes of buffer to print
+ * @l: line of buffer to print
  *
- * Return: 1 if true, 0 if false.
+ * Return: void
  */
-int isPrintableASCII(int n)
-{
-	return (n >= 32 && n <= 126);
-}
 
-/**
- * printHexes - func that prints hex values for string b in formatted form.
- * @b: pointer to string to print.
- * @start: starting position.
- * @end: ending position.
- *
- * Return: No return.
- */
-void printHexes(char *b, int start, int end)
+void print_line(char *c, int s, int l)
 {
-	int i = 0;
+	int j, k;
 
-	while (i < 10)
+	for (j = 0; j <= 9; j++)
 	{
-		if (i < end)
-			printf("%02x", *(b + start + i));
+		if (j <= s)
+			printf("%02x", c[l * 10 + j]);
 		else
 			printf("  ");
-		if (i % 2)
-			printf(" ");
-		i++;
+		if (j % 2)
+			putchar(' ');
 	}
-}
-
-/**
- * printASCII - function that prints ascii values for string b,
- * formatted to replace nonprintable chars with '.'
- * @b: pointer to string to print.
- * @start: starting position.
- * @end: ending position.
- *
- * Return: No return.
- */
-void printASCII(char *b, int start, int end)
-{
-	int ch, i = 0;
-
-	while (i < end)
+	for (k = 0; k <= s; k++)
 	{
-		ch = *(b + i + start);
-		if (!isPrintableASCII(ch))
-			ch = 46;
-		printf("%c", ch);
-		i++;
+		if (c[l * 10 + k] > 31 && c[l * 10 + k] < 127)
+			putchar(c[l * 10 + k]);
+		else
+			putchar('.');
 	}
 }
 
 /**
- * print_buffer - function that prints content of size bytes buffer,
- * pointed by b.
- * @b: pointer to string.
- * @size: size of buffer.
+ * print_buffer - prints a buffer
+ * @b: buffer to print
+ * @size: size of buffer
  *
- * The output should print 10 bytes per line.
- * Each line starts with the position of the first byte of the line in,
- * hexadecimal (8 chars), starting with 0.
- * Each line shows the hexadecimal content (2 chars) of the buffer, 2 bytes,
- * at a time, separated by a space.
- * Each line shows the content of the buffer. If the byte is a printable,
- * character, print the letter, if not, print . (dot)
- * Each line ends with a new line \n.
- * If size is 0 or less, the output should be a new line only \n.
- * You are allowed to use the standard library.
- * The output should look like the example shown, and formatted exactly the,
- * same way
- *
- * Return: No return.
-
+ * Return: void
  */
-
 void print_buffer(char *b, int size)
 {
-	int start, end;
+	int i;
 
-	if (size > 0)
+	for (i = 0; i <= (size - 1) / 10 && size; i++)
 	{
-		for (start = 0; start < size; start += 10)
+		printf("%08x: ", i * 10);
+		if (i < size / 10)
 		{
-			end = (size - start < 10) ? size - start : 10;
-			printf("%08x: ", start);
-			printHexes(b, start, end);
-			printASCII(b, start, end);
-			printf("\n");
+			print_line(b, 9, i);
 		}
-	} else
-		printf("\n");
+		else
+		{
+			print_line(b, size % 10 - 1, i);
+		}
+		putchar('\n');
+	}
+	if (size == 0)
+		putchar('\n');
 }
